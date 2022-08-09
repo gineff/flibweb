@@ -2,19 +2,23 @@ import React, {useState} from 'react';
 import {Form, Button, Container, Col, Row} from 'react-bootstrap';
 import * as Realm from "realm-web";
 import { useRealmApp } from "../RealmApp";
-import qs from 'qs';
-const axios = require('axios').default;
-const proxyCorsUrl ="https://api.allorigins.win/raw?url=";
-//import axios from 'axios';
 
-/*
+const someVar = {headers: {Authorization: `Bearer ${cookie_value}`},
+withCredentials: true,
+  crossDomain: true}
+
+const axios = require('axios').default;
+
+
 axios.post('http://localhost:5000/api/auth/login',{ userEmail, userPassword },{
   withCredentials: true,
-})
-*/
+}).then((res) => {
+  console.log(res);
+});
 
-export default ({state, setState})=> {
 
+export default ({state, setState, realm})=> {
+  const {logIn} = useRealmApp();
   const [credentials, setCredentials] = useState({});
   const [error, setError] = useState({});
 
@@ -22,26 +26,14 @@ export default ({state, setState})=> {
     e.preventDefault();
     //setIsLoggingIn(true);
     //setError((e) => ({ ...e, password: null }));
-    let {name, pass} = credentials;
-
-
-
-    const data = {
-      op: "Вход в систему",
-      form_build_id: "form-GcTKe8gMcDO-nLJcsz3f6Mq3oV57l5uw121QF_Pmwfo",
-      form_id: "user_login_block"
-    };
-    const options = {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify({...data, ...credentials}),
-      url: proxyCorsUrl+encodeURIComponent('http://flibusta.is'),
-    };
-
-    axios(options).then(({data})=> console.log(data)).catch((err)=> {
+    let {email, password} = credentials;
+    try {
+      let user = await logIn(Realm.Credentials.emailPassword(email, password));
+      console.log(user);
+    } catch (err) {
       console.log(err);
      // handleAuthenticationError(err, setError);
-    })
+    }
   };
 
 
@@ -51,16 +43,16 @@ export default ({state, setState})=> {
       <Col md={6}>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Your name</Form.Label>
-            <Form.Control type="text"
-                          onChange={(e)=>setCredentials({...credentials, name:e.target.value})}
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email"
+                          onChange={(e)=>setCredentials({...credentials, email:e.target.value})}
                           placeholder="Enter email" />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password"
-                          onChange={(e)=>setCredentials({...credentials, pass:e.target.value})}
+                          onChange={(e)=>setCredentials({...credentials, password:e.target.value})}
                           placeholder="Password" />
           </Form.Group>
 

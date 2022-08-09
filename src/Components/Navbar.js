@@ -1,21 +1,37 @@
-import React from 'react'
-import {Container, Nav, Navbar, Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React, {useState} from 'react'
+import {Container, Nav, Navbar, Offcanvas, Col, Row} from "react-bootstrap";
 import {useRealmApp} from "../RealmApp";
+import Sidebar from "./Sidebar";
 
 export default ()=> {
-  const app = useRealmApp();
 
-  return   <Navbar bg="dark" variant="dark">
-    <Container>
-      <Navbar.Brand>   <Nav.Link href="/">Lib-tracker</Nav.Link>               </Navbar.Brand>
-      <Nav className="me-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="/login"><Link to={'/Login'}>Login</Link></Nav.Link>
-        <Nav.Link href="/signup"><Link to={'/SignUp'}>Sign up</Link></Nav.Link>
-        <Nav.Link href="/video"><Link to={'/video'}>Video</Link></Nav.Link>
-        <Nav.Link href=""><Button type="link" onClick={app.logOut}>Log out</Button></Nav.Link>
-      </Nav>
+  const [show, setShow] = useState(false);
+
+
+  const handleShow = () => setShow(!show);
+
+
+  return   <>
+    <Navbar bg="dark" variant="dark" expand={"md"}>
+      <Container fluid>
+        <Navbar.Toggle onClick = {handleShow}/>
+        <Navbar.Brand>
+          <Nav.Link href="/">Flibapp</Nav.Link>
+        </Navbar.Brand>
+      </Container>
+    </Navbar>
+    <Container fluid>
+      <Row>
+        <Offcanvas show={show} onHide={handleShow}>
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Menu</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Sidebar />
+          </Offcanvas.Body>
+        </Offcanvas>
+      </Row>
     </Container>
-  </Navbar>
+  </ >
+
 }
