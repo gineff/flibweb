@@ -32,7 +32,7 @@ export default function login(req, res) {
       'user-agent':  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36'
     },
     data: qs.stringify(data),
-    url: 'http://flibusta.is'
+    url: 'http://flibusta.is/node?destination=node'
   };
 
   axios(options).then(({data})=> {
