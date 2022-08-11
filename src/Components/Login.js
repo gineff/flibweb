@@ -51,6 +51,7 @@ export default ({state, setState})=> {
       <Col md={6}>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
+            <div>Для авторизации введите свой логин и пароль flibusta</div>
             <Form.Label>Your name</Form.Label>
             <Form.Control type="text"
                           onChange={(e)=>setCredentials({...credentials, name:e.target.value})}
@@ -64,9 +65,6 @@ export default ({state, setState})=> {
                           placeholder="Password" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
           <Button variant="primary" type="submit" onClick={handleLogin}>
             Submit
           </Button>
@@ -74,6 +72,7 @@ export default ({state, setState})=> {
             Forgot <a href="#">password?</a>
           </p>
         </Form>
+        <div><a href="http://flibusta.is/register">Регистрация на сайта Флибусты </a></div>
       </Col>
       </Row>
     </Container>)

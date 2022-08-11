@@ -1,6 +1,19 @@
 import axios from 'axios';
 import qs from 'qs';
 
+export const hash = async ()=> {
+  const { createHmac } = await import('node:crypto');
+  const secret = 'abcdefg';
+  const hash = createHmac('sha256', secret)
+    .update('I love cupcakes')
+    .digest('hex');
+  console.log(hash);
+
+}
+
+
+
+
 export default function login(req, res) {
 
   let response = {};
